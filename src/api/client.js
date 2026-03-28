@@ -1,5 +1,5 @@
 const rawApiUrl = import.meta.env.VITE_API_URL?.trim();
-const API_URL = rawApiUrl || (import.meta.env.DEV ? "https://ba-api.vercel.app" : "");
+const API_URL = rawApiUrl || (import.meta.env.DEV ? "http://localhost:4000/api" : "");
 
 async function request(path, options = {}) {
   if (!API_URL) {
