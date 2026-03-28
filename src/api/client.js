@@ -1,13 +1,28 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+const rawApiUrl = import.meta.env.VITE_API_URL?.trim();
+const API_URL = rawApiUrl || (import.meta.env.DEV ? "https://ba-api.vercel.app" : "");
 
 async function request(path, options = {}) {
-  const response = await fetch(`${API_URL}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-    ...options,
-  });
+  if (!API_URL) {
+    throw new Error(
+      "API is not configured. Set VITE_API_URL in the frontend deployment environment.",
+    );
+  }
+
+  let response;
+
+  try {
+    response = await fetch(`${API_URL}${path}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+      ...options,
+    });
+  } catch {
+    throw new Error(
+      "Could not reach the API. Check that VITE_API_URL points to your deployed backend and that CORS allows this site.",
+    );
+  }
 
   if (!response.ok) {
     const error = await response
