@@ -47,25 +47,24 @@ function DashboardLayout() {
   function toggleSidebar() {
     setSidebarCollapsed((current) => {
       const nextValue = !current;
-      window.localStorage.setItem(
-        "ba-sidebar-collapsed",
-        String(nextValue),
-      );
+      window.localStorage.setItem("ba-sidebar-collapsed", String(nextValue));
       return nextValue;
     });
   }
 
   return (
     <div
-      className={
-        sidebarCollapsed ? "app-shell sidebar-collapsed" : "app-shell"
-      }
+      className={sidebarCollapsed ? "app-shell sidebar-collapsed" : "app-shell"}
     >
       <aside className={sidebarCollapsed ? "sidebar is-collapsed" : "sidebar"}>
         <div>
           <div className="sidebar-topbar">
             <div className="brand">
-              <Link className="brand-mark brand-mark-link" to="/" aria-label="Go to dashboard">
+              <Link
+                className="brand-mark brand-mark-link"
+                to="/"
+                aria-label="Go to dashboard"
+              >
                 B
               </Link>
               <div className="brand-copy">

@@ -7,9 +7,7 @@ import ConfirmDialog from "../components/ConfirmDialog.jsx";
 
 export default function DashboardPage() {
   const loadEventTypes = useCallback(() => api.listEventTypes(), []);
-  const { data, loading, error, execute } = useAsync(
-    loadEventTypes,
-  );
+  const { data, loading, error, execute } = useAsync(loadEventTypes);
   const [searchParams, setSearchParams] = useSearchParams();
   const [editing, setEditing] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -81,9 +79,7 @@ export default function DashboardPage() {
       setNotice(`Copied link for ${eventType.title}.`);
       window.setTimeout(
         () =>
-          setCopiedId((current) =>
-            current === eventType.id ? null : current,
-          ),
+          setCopiedId((current) => (current === eventType.id ? null : current)),
         1800,
       );
     } catch {

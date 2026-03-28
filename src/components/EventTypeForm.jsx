@@ -190,7 +190,11 @@ export default function EventTypeForm({
             </p>
             {initialValue?.publicLink ? (
               <div className="card-link-row inline-link-row">
-                <a href={initialValue.publicLink} target="_blank" rel="noreferrer">
+                <a
+                  href={initialValue.publicLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {initialValue.publicLink}
                 </a>
               </div>

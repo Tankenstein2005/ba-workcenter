@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Running advisory ESLint check..."
+npm run precommit
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo "Lint check failed, but commit will continue."
+  echo "Run 'npm run lint:fix' and 'npm run format' when you get a chance."
+  exit 0
+fi
+
+echo "Pre-commit lint check passed."

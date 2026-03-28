@@ -685,6 +685,9 @@ textarea {
     position: static;
     height: auto;
   }
+  .sidebar-toggle{
+    display: none;
+  }
   .app-shell.sidebar-collapsed {
     grid-template-columns: 1fr;
   }

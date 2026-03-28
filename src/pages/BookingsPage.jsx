@@ -46,9 +46,7 @@ function BookingList({ title, items, onCancel }) {
 
 export default function BookingsPage() {
   const loadBookings = useCallback(() => api.listBookings(), []);
-  const { data, loading, error, execute } = useAsync(
-    loadBookings,
-  );
+  const { data, loading, error, execute } = useAsync(loadBookings);
   const [pendingCancel, setPendingCancel] = useState(null);
   const [cancelling, setCancelling] = useState(false);
   const [notice, setNotice] = useState("");

@@ -21,11 +21,7 @@ export default function AvailabilityPage() {
     () => (selectedId ? api.getEventType(selectedId) : Promise.resolve(null)),
     [selectedId],
   );
-  const {
-    data: eventTypes,
-    loading,
-    error,
-  } = useAsync(loadEventTypes);
+  const { data: eventTypes, loading, error } = useAsync(loadEventTypes);
   const {
     data: selectedEvent,
     loading: detailLoading,
@@ -189,7 +185,9 @@ export default function AvailabilityPage() {
                     </div>
                   </div>
                   {!selectedEvent.availability.length && (
-                    <p className="section-note">No recurring availability yet.</p>
+                    <p className="section-note">
+                      No recurring availability yet.
+                    </p>
                   )}
                   {selectedEvent.availability.map((item) => (
                     <div className="booking-row" key={item.id}>
@@ -221,7 +219,9 @@ export default function AvailabilityPage() {
                   {selectedEvent.overrides.map((item) => (
                     <div className="booking-row" key={item.id}>
                       <div>
-                        <strong>{formatOverrideDate(item.override_date)}</strong>
+                        <strong>
+                          {formatOverrideDate(item.override_date)}
+                        </strong>
                         <p>{item.note || "No note added."}</p>
                       </div>
                       <div className="booking-row-meta">
