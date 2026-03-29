@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, NavLink, Link } from "react-router-dom";
+import { api } from "./api/client.js";
 import DashboardPage from "./pages/DashboardPage.jsx";
 import AvailabilityPage from "./pages/AvailabilityPage.jsx";
 import BookingsPage from "./pages/BookingsPage.jsx";
@@ -38,11 +39,40 @@ function AvailabilityIcon() {
 
 function DashboardLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [systemStatus, setSystemStatus] = useState(null);
 
   useEffect(() => {
     const storedValue = window.localStorage.getItem("ba-sidebar-collapsed");
     setSidebarCollapsed(storedValue === "true");
   }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    api
+      .getHealth()
+      .then((result) => {
+        if (active) {
+          setSystemStatus(result);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setSystemStatus(null);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const storageNotice =
+    systemStatus?.storage?.activeMode === "demo"
+      ? "API is using demo storage. Switch the backend to STORAGE_MODE=database with a reachable database to work with real data."
+      : systemStatus?.database?.configured && !systemStatus?.database?.reachable
+        ? "API database is configured but currently unreachable."
+        : "";
 
   function toggleSidebar() {
     setSidebarCollapsed((current) => {
@@ -116,6 +146,7 @@ function DashboardLayout() {
         </div>
       </aside>
       <main className="dashboard-main">
+        {storageNotice ? <p className="status-note">{storageNotice}</p> : null}
         <Routes>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/bookings" element={<BookingsPage />} />

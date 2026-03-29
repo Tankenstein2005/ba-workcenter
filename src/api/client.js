@@ -55,6 +55,7 @@ async function request(path, options = {}) {
     response = await fetch(`${API_URL}${path}`, {
       headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
         ...(options.headers || {}),
       },
       ...options,
@@ -81,6 +82,7 @@ async function request(path, options = {}) {
 }
 
 export const api = {
+  getHealth: () => request("/health"),
   listEventTypes: () => request("/event-types"),
   getEventType: (id) => request(`/event-types/${id}`),
   createEventType: (payload) =>
