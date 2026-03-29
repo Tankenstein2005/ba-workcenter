@@ -1,5 +1,46 @@
-const rawApiUrl = import.meta.env.VITE_API_URL?.trim();
-const API_URL = rawApiUrl || (import.meta.env.DEV ? "https://ba-api.vercel.app" : "");
+function normalizeApiUrl(value) {
+  if (!value) {
+    return "";
+  }
+
+  return value.trim().replace(/\/+$/, "");
+}
+
+const configuredApiUrl = normalizeApiUrl(import.meta.env.VITE_API_URL);
+const API_URL = configuredApiUrl || (import.meta.env.DEV ? "https://ba-api.vercel.app" : "/api");
+
+function normalizePublicLink(publicLink) {
+  if (!publicLink || /^https?:\/\//i.test(publicLink)) {
+    return publicLink;
+  }
+
+  if (typeof window === "undefined") {
+    return publicLink;
+  }
+
+  return new URL(publicLink, window.location.origin).toString();
+}
+
+function normalizeApiResponse(value) {
+  if (Array.isArray(value)) {
+    return value.map(normalizeApiResponse);
+  }
+
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  const normalized = Object.fromEntries(
+    Object.entries(value).map(([key, entryValue]) => [
+      key,
+      key === "publicLink"
+        ? normalizePublicLink(entryValue)
+        : normalizeApiResponse(entryValue),
+    ]),
+  );
+
+  return normalized;
+}
 
 async function request(path, options = {}) {
   if (!API_URL) {
@@ -35,7 +76,8 @@ async function request(path, options = {}) {
     return null;
   }
 
-  return response.json();
+  const data = await response.json();
+  return normalizeApiResponse(data);
 }
 
 export const api = {
