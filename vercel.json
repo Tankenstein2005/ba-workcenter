@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://ba-api.vercel.app/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
