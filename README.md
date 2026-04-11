@@ -2,8 +2,8 @@
 
 Broken Arrow is split into two apps:
 
-- `ba-workcenter`: the React + Vite frontend that is deployed on Vercel(You can access the Workcenter from the given link: https://github.com/Tankenstein2005/ba-workcenter)
-- `ba-api`: the Express API that powers event types, availability, public booking pages, and bookings(You can access the API from the given link: https://github.com/Tankenstein2005/ba-api)
+- `ba-workcenter`: the React + Vite frontend that is deployed on Vercel( You can access the client from the given link: https://ba-workcenter.vercel.app)
+- `ba-api`: the Express API that powers event types, availability, public booking pages, and bookings(You can access the API source from the given link: https://github.com/Tankenstein2005/ba-api)
 
 This repository already contains both projects. The important deployment detail is that the Vercel frontend cannot call `localhost` on your computer. If you want the deployed app to use an API running on your machine, you must:
 
